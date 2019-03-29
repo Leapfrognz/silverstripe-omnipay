@@ -11,7 +11,6 @@ use Omnipay\Common\CreditCard;
  */
 class GatewayFieldsFactory
 {
-
     protected $fieldgroups = array(
         'Card',
         'Billing',
@@ -117,8 +116,7 @@ class GatewayFieldsFactory
         $months = array();
         //generate list of months
         for ($x = 1; $x <= 12; $x++) {
-            // Fixes #145 - Thanks to @digitall-it
-            $months[$x] = str_pad($x, 2, '0', STR_PAD_LEFT) . " - " . strftime('%B', mktime(0, 0, 0, $x));
+            $months[$x] = date('m - F', mktime(0, 0, 0, $x, 1));
         }
         $year = date('Y');
         $range = 5;
@@ -328,7 +326,7 @@ class GatewayFieldsFactory
      */
     protected function cullForGateway(&$fields, $defaults = array())
     {
-        if (!$this->gateway){
+        if (!$this->gateway) {
             return;
         }
 
@@ -473,8 +471,8 @@ class GatewayFieldsFactory
      * Builds the rename map which is used as a lookup table for normalizeFieldData()
      * @return void
      */
-    private function buildRenameMap() {
-
+    private function buildRenameMap()
+    {
         $renameMap = $this->config()->rename;
 
         if (!$renameMap) {
